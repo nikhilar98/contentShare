@@ -4,10 +4,10 @@ const NavBar =()=>{
 
     return (
         <nav className='navBar'>
-            <Link to='/'>Register</Link>
-            <Link to='/login'>Login</Link>
-            <Link to='/create'>Create</Link>
-            <Link to='/myContents'>My contents</Link>
+            <Link to='/' className='navLink'>Register</Link>
+            <Link to='/login' className='navLink'>Login</Link>
+            <Link to='/create' className='navLink'>Create</Link>
+            <Link to='/myContents' className='navLink'>My contents</Link>
         </nav>
     )
 }
