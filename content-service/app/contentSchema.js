@@ -1,33 +1,8 @@
 const Content = require("./contentModel")
 
 const contentValidationSchema = { 
-    title:{ 
-        notEmpty:{ 
-            errorMessage:"Title cannot be Empty."
-        },
-        isLength:{ 
-            options:{
-                min:2
-            },
-            errorMessage:"Title should be atleast 2 character long"
-        }
-        
-    },
-    description: {
-        notEmpty:{ 
-            errorMessage:"Description cannot be Empty."
-        },
-        isLength:{ 
-            options:{
-                min:5
-            },
-            errorMessage:"Description should be atleast 5 characters long"
-        }
-    },
+    
     contentLink:{ 
-        notEmpty:{ 
-            errorMessage:"Link cannot be Empty."
-        },
         isURL:{ 
             errorMessage:"Invalid URL."
         },

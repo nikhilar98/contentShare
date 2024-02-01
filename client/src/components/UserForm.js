@@ -1,11 +1,12 @@
 import {Box, Button, TextField, Typography} from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import {sha256} from 'js-sha256'
 import {isEmail,isStrongPassword} from 'validator'
 import { ToastContainer, toast } from 'react-toastify';
 import {useNavigate} from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.css';
+import { appContext } from '../App'
 
 
 const UserForm = (props) =>{ 
@@ -17,6 +18,8 @@ const UserForm = (props) =>{
     const [formErrors,setFormErrors] = useState({})
     const [serverErrors,setServerErrors] = useState({})
     const [formType, setFormType] = useState(form)
+
+    const {appDispatch} = useContext(appContext)
 
     const errors = {} 
 
@@ -65,9 +68,14 @@ const UserForm = (props) =>{
                     }
                     else if(form=='login'){
                         const response = await axios.post('http://localhost:4001/login',formData)
-                        setEmail("")
-                        setPassword("")
                         localStorage.setItem('token',response.data.token)
+                        const userContents = await axios.get('http://localhost:4002/myContents',{
+                            headers:{
+                                Authorization: localStorage.getItem('token')
+                            }
+                        })
+                        appDispatch({type:'LOGIN_USER'})
+                        appDispatch({type:"SET_USER_CONTENTS",payload:userContents.data})
                         navigate('/create')
                     }
                 }
