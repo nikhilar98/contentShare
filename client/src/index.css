@@ -1,0 +1,14 @@
+*{
+  box-sizing: border-box;
+}
+body{
+  margin: 0;
+}
+.navBar{
+  display: flex;
+  justify-content: start;
+  gap:5vw;
+  background-color: rgb(126, 126, 126);
+  margin:0;
+  padding: 2vw;
+}

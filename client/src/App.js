@@ -20,7 +20,7 @@ const App = () => {
           <Route path='/content/:id' element={<ContentDisplay/>}></Route>
         </Routes>
       </main>
-      <footer>About us</footer>
+      <footer></footer>
     </div>
   );
 }
