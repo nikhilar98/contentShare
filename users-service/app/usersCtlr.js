@@ -41,14 +41,14 @@ usersCtlr.login = async (req,res) => {
         const body = _.pick(req.body,['email','password'])
         const user = await User.findOne({email:body.email})
         if(!user){
-            return res.status(400).json({msg:"Invalid email / password."})
+            return res.status(400).json({errors:[{msg:"Invalid email / password.",path:'generic'}]})
         }
         if(user.password==body.password){
             const token = jwt.sign({userId:user._id},process.env.SECRET_KEY)
             res.json({token:`bearer ${token}`})
         }
         else{
-            return res.status(400).json({msg:"Invalid email / password."})
+            return res.status(400).json({errors:[{msg:"Invalid email / password.",path:'generic'}]})
         }
     }
     catch(err){ 

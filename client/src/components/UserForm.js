@@ -1,5 +1,5 @@
 import {Box, Button, TextField, Typography} from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
 import {sha256} from 'js-sha256'
 import {isEmail,isStrongPassword} from 'validator'
@@ -8,17 +8,24 @@ import {useNavigate} from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.css';
 
 
-const UserForm = (originalComponent) =>{ 
+const UserForm = (props) =>{ 
 
-    const NewForm = () => { 
-        const [email,setEmail] = useState("")
-        const [password,setPassword] = useState("")
-        const [formErrors,setFormErrors] = useState({})
-        const [serverErrors,setServerErrors] = useState({})
+    const {form} = props
 
-        const errors = {} 
+    const [email,setEmail] = useState("")
+    const [password,setPassword] = useState("")
+    const [formErrors,setFormErrors] = useState({})
+    const [serverErrors,setServerErrors] = useState({})
+    const [formType, setFormType] = useState(form)
 
-        function runValidations() { 
+    const errors = {} 
+
+    const notify = (msg) => toast.success(msg)  
+
+    const navigate = useNavigate()
+
+    function runValidations() { 
+
             if(email===''){
                 errors.email = 'email is required.'
             }
@@ -33,15 +40,69 @@ const UserForm = (originalComponent) =>{
             }
         }
 
-        const navigate = useNavigate()
+    const handleSubmit = async (e) => {  
+            e.preventDefault() 
+    
+            runValidations()
+    
+            if(Object.keys(errors).length==0){   //if errors object is empty, proceed to making the api call
+                setFormErrors({})
+                setServerErrors({})
+                const formData= { 
+                    email,
+                    password:sha256(password)
+                }
+                try{
+                    if(form=='register')
+                    {
+                        const response = await axios.post('http://localhost:4001/register',formData)
+                        setEmail("")
+                        setPassword("")
+                        notify(response.data.msg)
+                        setTimeout(()=>{
+                            navigate('/login')
+                        },2000)
+                    }
+                    else if(form=='login'){
+                        const response = await axios.post('http://localhost:4001/login',formData)
+                        setEmail("")
+                        setPassword("")
+                        localStorage.setItem('token',response.data.token)
+                        navigate('/create')
+                    }
+                }
+                catch(err){
+                    const errorResponse = err.response.data.errors
+                    const obj = {}
+                    errorResponse.forEach(ele=>{
+                        obj[ele.path]=ele.msg
+                    })
+                    setServerErrors(obj)
+                }
+            }
+    
+            else{
+                setFormErrors(errors)
+            }
+        }
 
-        return (
+    console.log(formType)
+    useEffect(()=>{
+            console.log(`${form} component rendered.`)
+            setEmail("")
+            setPassword("")
+            setFormErrors({})
+            setServerErrors({})
+    },[formType])
+
+    return (
             <Box sx={{display:'flex',justifyContent:'center',marginTop:'2vh'}}>
-                <Box component='form' onSubmit={handleRegister} sx={{display:'grid',maxWidth:'20%',rowGap:'2vh'}}>
+                <Box component='form' onSubmit={handleSubmit} 
+                sx={{display:'grid',maxWidth:'20%',rowGap:'2vh'}}>
                 <Typography 
                 variant="h3" 
                 gutterBottom>
-                    Register
+                     {form=='register' ? 'Register' : 'Login'}
                 </Typography>
                 <TextField 
                 label="Email" 
@@ -60,19 +121,18 @@ const UserForm = (originalComponent) =>{
                 error={Boolean(formErrors.password)|| Boolean(serverErrors.password)}
                 helperText={(formErrors.password ? formErrors.password : '') || (serverErrors.password ? serverErrors.password : '')}>
                 </TextField>
+                {serverErrors.generic && <p>{serverErrors.generic}</p>}
                 <Button 
                 type='submit'
                 variant='contained'
                 style={{width:'8rem'}}>
-                    Register
+                    {form=='register' ? 'Register' : 'Login'}
                 </Button>
                 </Box>
                 <ToastContainer autoClose={1500}/>
             </Box>
-        )
-    }
-
-    return NewForm
+            )
+    
 }
 
 
