@@ -1,7 +1,8 @@
-import { Box, Button, TextField } from "@mui/material"
+import { Box, Button, TextField, Typography } from "@mui/material"
 import { useContext, useState } from "react"
 import axios from 'axios'
 import { appContext } from "../App"
+import { useNavigate } from "react-router-dom"
 
 const ContentForm = () => { 
 
@@ -11,7 +12,9 @@ const ContentForm = () => {
     const [formErrors,setFormErrors] = useState({})
     const [serverErrors,setServerErrors] = useState({})
     
-    const {appDispatch}  = useContext(appContext)
+    const {appDispatch,appState}  = useContext(appContext)
+    const {isLoggedin} = appState
+    const navigate = useNavigate()
 
     const errors = {} 
     
@@ -34,6 +37,7 @@ const ContentForm = () => {
 
         if(Object.keys(errors).length==0){
             setFormErrors({})
+            setServerErrors({})
             const formData= { 
                 title,
                 description,
@@ -46,11 +50,15 @@ const ContentForm = () => {
                     }
                 })
                 appDispatch({type:"ADD_USER_CONTENT",payload:response.data})
-                //navigate user to the content
+                navigate('/myContents')
             }   
             catch(err){
-                console.log(err)
-                //handle the errors from server
+                const errorResponse = err.response.data.errors
+                const obj = {}
+                errorResponse.forEach(ele=>{
+                    obj[ele.path]=ele.msg
+                })
+                setServerErrors(obj)
             }
         }
         else{ 
@@ -61,11 +69,14 @@ const ContentForm = () => {
 
 
     return (
-        <Box sx={{display:'flex',justifyContent:'center',marginTop:'2vh'}}>
+        <>
+        {isLoggedin ? 
+            (<Box sx={{display:'flex',justifyContent:'center',marginTop:'2vh'}}>
             <Box
             component='form' 
             sx={{display:'grid',width:'40%',rowGap:'2vh'}}
             onSubmit={handeSubmit}>
+                <Typography variant="h3" gutterBottom>Create content</Typography>
                 <TextField 
                 label="Title" 
                 variant="standard"  
@@ -75,7 +86,7 @@ const ContentForm = () => {
                 helperText={(formErrors.title ? formErrors.title : '') || (serverErrors.title ? serverErrors.title : '')}/>
 
                 <TextField 
-                label='description' 
+                label='Description' 
                 variant="standard"
                 value={description}
                 onChange={(e)=>{setDescription(e.target.value)}}
@@ -83,12 +94,12 @@ const ContentForm = () => {
                 helperText={(formErrors.description ? formErrors.description : '') || (serverErrors.description ? serverErrors.description : '')}/>
 
                 <TextField 
-                label='link' 
+                label='Link' 
                 variant="standard" 
                 value={link}
                 onChange={(e)=>{setLink(e.target.value)}}
-                error={Boolean(formErrors.link) || Boolean(serverErrors.link)}
-                helperText={(formErrors.link ? formErrors.link : '') || (serverErrors.link ? serverErrors.link : '')}/>
+                error={Boolean(formErrors.link) || Boolean(serverErrors.contentLink)}
+                helperText={(formErrors.link ? formErrors.link : '') || (serverErrors.contentLink ? serverErrors.contentLink : '')}/>
 
                 <Button
                 variant='contained'
@@ -97,7 +108,14 @@ const ContentForm = () => {
                     Create
                 </Button>
             </Box>
-        </Box>
+        </Box>)
+
+        : 
+
+        (<Typography gutterBottom color="text.secondary">Login to create content.</Typography>)
+        }
+        </>
+        
     )
 }
 
