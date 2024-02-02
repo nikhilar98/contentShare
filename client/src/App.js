@@ -19,7 +19,7 @@ const App = () => {
     (async function(){
       if(localStorage.getItem('token')){
         appDispatch({type:'LOGIN_USER'})
-        const userContents = await axios.get('http://localhost:4002/myContents',{
+        const userContents = await axios.get('https://contentshare-query-service.onrender.com/myContents',{
           headers:{
               Authorization: localStorage.getItem('token')
           }

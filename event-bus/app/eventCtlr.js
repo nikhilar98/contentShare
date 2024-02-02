@@ -9,9 +9,9 @@ eventCtlr.emit = async (req,res) => {
     try{
         const event = new Event(req.body)
         await event.save()
-        await axios.post('http://localhost:4000/events',event)
-        await axios.post('http://localhost:4001/events',event)
-        await axios.post('http://localhost:4002/events',event)
+        await axios.post('https://contentshare-content-service.onrender.com/events',event)
+        await axios.post('https://contentshare-users-service.onrender.com/events',event)
+        await axios.post('https://contentshare-query-service.onrender.com/events',event)
         res.status(201).json({})
     }
     catch(err){

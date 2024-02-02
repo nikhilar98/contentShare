@@ -19,7 +19,7 @@ usersCtlr.register = async (req,res) => {
         const body = _.pick(req.body,['email','password'])
         const user = new User(body)
         const savedUser = await user.save()
-        await axios.post('http://localhost:4003/events',{
+        await axios.post('https://contentshare-eventbus-service.onrender.com/events',{
             type:'userCreated',
             payload:savedUser._id
         })

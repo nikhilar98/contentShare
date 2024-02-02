@@ -46,7 +46,7 @@ const ContentForm = () => {
                 contentLink:link
             }
             try{
-                const response = await axios.post('http://localhost:4000/createContent',formData,{
+                const response = await axios.post('https://contentshare-content-service.onrender.com/createContent',formData,{
                     headers:{
                         Authorization: localStorage.getItem('token')
                     }

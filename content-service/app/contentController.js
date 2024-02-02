@@ -20,7 +20,7 @@ contentCtlr.create = async (req,res) =>  {
     const content = new Content(body)
     try{
         const savedContent = await content.save()
-        await axios.post('http://localhost:4003/events',{
+        await axios.post('https://contentshare-eventbus-service.onrender.com/events',{
             type:'contentCreated',
             payload:savedContent
         })

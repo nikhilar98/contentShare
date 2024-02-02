@@ -58,7 +58,7 @@ const UserForm = (props) =>{
                 try{
                     if(form=='register')
                     {
-                        const response = await axios.post('http://localhost:4001/register',formData)
+                        const response = await axios.post('https://contentshare-users-service.onrender.com/register',formData)
                         setEmail("")
                         setPassword("")
                         notify(response.data.msg)
@@ -67,9 +67,9 @@ const UserForm = (props) =>{
                         },2000)
                     }
                     else if(form=='login'){
-                        const response = await axios.post('http://localhost:4001/login',formData)
+                        const response = await axios.post('https://contentshare-users-service.onrender.com/login',formData)
                         localStorage.setItem('token',response.data.token)
-                        const userContents = await axios.get('http://localhost:4002/myContents',{
+                        const userContents = await axios.get('https://contentshare-query-service.onrender.com/myContents',{
                             headers:{
                                 Authorization: localStorage.getItem('token')
                             }
