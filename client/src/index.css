@@ -4,6 +4,7 @@
 }
 body{
   margin: 0;
+  overflow-x: hidden;
 }
 .navBar{
   display: flex;
@@ -12,6 +13,7 @@ body{
   background-color: rgb(21, 101, 192);
   margin:0;
   padding: 2vw;
+  width: 100vw;
 }
 .navLink{
   text-decoration: none;

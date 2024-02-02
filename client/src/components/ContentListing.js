@@ -17,15 +17,16 @@ const ContentListing = () => {
     return (
         <>
         {isLoggedin ? 
-        (<Box sx={{width:'50%',minWidth:'400px'}}>
+        (<Box sx={{width:'80%',maxWidth:'730px'}}>
             <Typography variant="h2" gutterBottom>My contents</Typography>
             {   userContents.length==0 && 
                 <Typography gutterBottom color="text.secondary">No Contents created.</Typography>
             }
-            {
+            <Box sx={{mb:'10vh'}}>
+            {   
                 userContents.slice(pageNo*3-3,pageNo*3).map(ele=>{
                     return <Card key={ele._id}
-                        sx={{m:'2vh'}}>
+                        sx={{m:'2vh',backgroundColor:'whitesmoke',wordWrap: 'break-word'}}>
                         <CardContent>
                         <Typography sx={{ fontSize: '2rem' }} 
                         color="text.secondary" 
@@ -42,8 +43,11 @@ const ContentListing = () => {
                         </CardContent>
                     </Card>
                 })
+                
             }
-            { userContents.length!==0 && <Pagination sx={{display:'flex',justifyContent:'center'}} 
+            </Box>
+            { userContents.length!==0 && <Pagination 
+                sx={{display:'flex',justifyContent:'center',position:'fixed',bottom:0,backgroundColor:'rgb(130, 177, 232)',width:'100%',p:'1vh'}} 
                 count={Math.ceil(userContents.length/3)} 
                 value={pageNo} onChange={handlePageChange}/>}
         </Box>)

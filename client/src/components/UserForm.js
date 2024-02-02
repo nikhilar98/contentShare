@@ -106,7 +106,7 @@ const UserForm = (props) =>{
     return (
             <Box sx={{display:'flex',justifyContent:'center',marginTop:'2vh'}}>
                 <Box component='form' onSubmit={handleSubmit} 
-                sx={{display:'grid',maxWidth:'20%',rowGap:'2vh'}}>
+                sx={{display:'grid',maxWidth:'220px',minWidth:'150px',rowGap:'2vh'}}>
                 <Typography 
                 variant="h3" 
                 gutterBottom>
