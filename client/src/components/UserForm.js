@@ -17,7 +17,6 @@ const UserForm = (props) =>{
     const [password,setPassword] = useState("")
     const [formErrors,setFormErrors] = useState({})
     const [serverErrors,setServerErrors] = useState({})
-    const [formType, setFormType] = useState(form)
 
     const {appDispatch} = useContext(appContext)
 
@@ -94,14 +93,12 @@ const UserForm = (props) =>{
             }
         }
 
-    console.log(formType)
     useEffect(()=>{
-            console.log(`${form} component rendered.`)
             setEmail("")
             setPassword("")
             setFormErrors({})
             setServerErrors({})
-    },[formType])
+    },[])
 
     return (
             <Box sx={{display:'flex',justifyContent:'center',marginTop:'2vh'}}>

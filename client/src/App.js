@@ -37,8 +37,8 @@ const App = () => {
         </header>
         <main>
           <Routes>
-            <Route path='/' element={<UserForm form='register'/>}></Route>
-            <Route path='/login' element={<UserForm form='login'/>}></Route>
+            <Route path='/' element={<UserForm form='register' key='register'/>}></Route>
+            <Route path='/login' element={<UserForm form='login' key='login'/>}></Route>
             <Route path='/myContents' element={<ContentListing/>}></Route>
             <Route path='/create' element={<ContentForm/>}></Route>
           </Routes>
