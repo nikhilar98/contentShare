@@ -1,5 +1,7 @@
-const Query = require("./queryModel")
 const mongoose = require('mongoose')
+
+const Query = require("./queryModel")
+
 const queryCtlr ={} 
 
 

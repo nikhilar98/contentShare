@@ -3,6 +3,7 @@ const axios = require('axios')
 require('dotenv').config()
 const {validationResult} = require('express-validator')
 const jwt = require('jsonwebtoken')
+
 const User = require('./usersModel')
 const usersCtlr ={} 
 

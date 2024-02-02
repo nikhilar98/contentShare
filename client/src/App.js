@@ -1,11 +1,13 @@
+import { createContext, useEffect, useReducer } from 'react'
 import {Route,Routes} from 'react-router-dom'
+import axios from 'axios'
+
 import ContentListing from './components/ContentListing'
 import ContentForm from './components/ContentForm'
 import NavBar from './components/NavBar'
 import UserForm from './components/UserForm'
-import { createContext, useEffect, useReducer } from 'react'
 import appReducer from './reducers/appReducer'
-import axios from 'axios'
+
 
 export const appContext = createContext() 
 
@@ -13,7 +15,7 @@ const App = () => {
 
   const [appState,appDispatch] = useReducer(appReducer,{isLoggedin:false,userContents:[]})
 
-  useEffect(()=>{ 
+  useEffect(()=>{    //for persisting user data on page reload
     (async function(){
       if(localStorage.getItem('token')){
         appDispatch({type:'LOGIN_USER'})
@@ -26,8 +28,6 @@ const App = () => {
       }
     })()
   },[])
-
-  console.log('app state:',appState)
 
   return (
     <appContext.Provider value={{appState,appDispatch}}>

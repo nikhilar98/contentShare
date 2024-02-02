@@ -1,8 +1,9 @@
 const express = require('express')
 const cors = require('cors') 
-const configDb = require('./configDb')
 require('dotenv').config() 
 const {checkSchema} = require('express-validator')
+
+const configDb = require('./configDb')
 const usersCtlr = require('./app/usersCtlr')
 const {userRegistrationSchema,userloginSchema} = require('./app/userSchema')
 

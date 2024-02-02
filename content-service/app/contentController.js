@@ -1,7 +1,8 @@
 const {pick} = require('lodash')
 const axios = require('axios')
-const Content = require('./contentModel')
 const {validationResult}  = require('express-validator')
+
+const Content = require('./contentModel')
 
 
 const contentCtlr = {} 

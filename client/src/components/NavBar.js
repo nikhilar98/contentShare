@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import {Link} from 'react-router-dom'
+
 import { appContext } from '../App'
 
 const NavBar =()=>{ 

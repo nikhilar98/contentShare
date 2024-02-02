@@ -1,6 +1,8 @@
 import { useContext, useState } from "react"
-import { appContext } from "../App"
 import { Box, Card, CardContent, Typography, Link, Pagination } from "@mui/material"
+
+import { appContext } from "../App"
+
 
 const ContentListing = () => { 
 
@@ -25,7 +27,8 @@ const ContentListing = () => {
             <Box sx={{mb:'10vh'}}>
             {   
                 userContents.slice(pageNo*3-3,pageNo*3).map(ele=>{
-                    return <Card key={ele._id}
+                    return (
+                    <Card key={ele._id}
                         sx={{m:'2vh',backgroundColor:'whitesmoke',wordWrap: 'break-word'}}>
                         <CardContent>
                         <Typography sx={{ fontSize: '2rem' }} 
@@ -41,7 +44,7 @@ const ContentListing = () => {
                             Link: <Link href={ele.contentLink} target='_blank'>{ele.contentLink} </Link>
                         </Typography>
                         </CardContent>
-                    </Card>
+                    </Card>)
                 })
                 
             }

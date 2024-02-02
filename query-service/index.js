@@ -1,9 +1,11 @@
 const express = require('express')
 const cors = require('cors')
+require('dotenv').config()
+
 const queryCtlr = require('./app/queryCtlr')
 const authenticateUser = require('./app/authenticateUser')
 const configDb = require('./configDb')
-require('dotenv').config()
+
 
 const app = express() 
 const port = process.env.PORT
