@@ -28,7 +28,7 @@ This application serves as a **Content creation system** allowing content creato
 2. **Users service**
    - Allows for user registration and login functionality.
 3. **Query service**
-   - Allows for feeding the relevant contents to the client. Stores the users and contents in an efficient data structure allowing for better system performance.
+   - Allows for feeding the relevant contents (contents belonging to a user) to the client. Stores the users and contents in an efficient data structure allowing for better system performance.
 4. **Event Bus**
    - Implements an event-driven architecture facilitating communication between microservices.
 
