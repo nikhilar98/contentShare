@@ -3,7 +3,7 @@
 
 # content-share
 
-This project is a **Content creation system** built using microservices architecture allowing content creators to submit educational content.
+This project is a **Content creation system** built using microservices architecture allowing content creators to create educational content.
 
 ## Overview
 
