@@ -19,15 +19,17 @@ This application serves as a **Content creation system** allowing content creato
 - **User login** : User can login to create content or view only contents belonging to them and can logout as well.
 - **Content Creation**: Users can create new contents specifying title, description and file link.
 - **Content Display**: Users can view the contents that are created by them only.
----------------------------------------------------------------------------------------------------------------------------------
+
 
 ## Architecture
 
-1. **Project Service**
-   - Create project and start date.
-2. **Task Service**
-   - Handles task management functionalities including creation and deadline for task.
-3. **Event Bus**
+1. **Contents service**
+   - Allows for content creation.
+2. **Users service**
+   - Allows for user registration and login functionality.
+3. **Query service**
+   - Allows for feeding the relevant contents to the client. Stores the users and contents in an efficient data structure allowing for better system performance.
+4. **Event Bus**
    - Implements an event-driven architecture facilitating communication between microservices.
 
 
@@ -36,10 +38,12 @@ This application serves as a **Content creation system** allowing content creato
 
 - **Backend**:
   - Node.js with Express.js for server-side logic and RESTful API endpoints.
+  - JWT for user authentication.
   - MongoDB for data storage and management.
 - **Frontend**:
-  - React and interactive user interfaces with a responsive design.
+  - React.js for interactive user interfaces.
   - Material UI for UI components.
+  - CSS for responsive design.
 - **Communication**:
   - RESTful APIs for inter-service communication.
 
