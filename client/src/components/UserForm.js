@@ -1,4 +1,4 @@
-import {Box, Button, TextField, Typography} from '@mui/material'
+import {Box, Button, TextField, Typography, CircularProgress, Container} from '@mui/material'
 import { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import {sha256} from 'js-sha256'
@@ -18,6 +18,7 @@ const UserForm = (props) =>{
     const [password,setPassword] = useState("")
     const [formErrors,setFormErrors] = useState({})
     const [serverErrors,setServerErrors] = useState({})
+    const [isLoading,setIsLoading] = useState(false)
 
     const {appDispatch} = useContext(appContext)
 
@@ -51,6 +52,7 @@ const UserForm = (props) =>{
             if(Object.keys(errors).length==0){   //if errors object is empty, proceed to making the api call
                 setFormErrors({})
                 setServerErrors({})
+                setIsLoading(true)
                 const formData= { 
                     email,
                     password:sha256(password)
@@ -59,6 +61,7 @@ const UserForm = (props) =>{
                     if(form=='register')
                     {
                         const response = await axios.post('https://contentshare-users-service.onrender.com/register',formData)
+                        setIsLoading(false)
                         setEmail("")
                         setPassword("")
                         notify(response.data.msg)
@@ -74,12 +77,16 @@ const UserForm = (props) =>{
                                 Authorization: localStorage.getItem('token')
                             }
                         })
+                        setIsLoading(false)
+                        setEmail("")
+                        setPassword("")
                         appDispatch({type:'LOGIN_USER'})
                         appDispatch({type:"SET_USER_CONTENTS",payload:userContents.data})
                         navigate('/create')
                     }
                 }
                 catch(err){
+                    setIsLoading(false)
                     const errorResponse = err.response.data.errors
                     const obj = {}
                     errorResponse.forEach(ele=>{
@@ -99,6 +106,7 @@ const UserForm = (props) =>{
             setPassword("")
             setFormErrors({})
             setServerErrors({})
+            setIsLoading(false)
     },[])
 
     return (
@@ -128,12 +136,14 @@ const UserForm = (props) =>{
                 helperText={(formErrors.password ? formErrors.password : '') || (serverErrors.password ? serverErrors.password : '')}>
                 </TextField>
                 {serverErrors.generic && <p>{serverErrors.generic}</p>}
+                
                 <Button 
                 type='submit'
                 variant='contained'
                 style={{width:'8rem'}}>
                     {form=='register' ? 'Register' : 'Login'}
                 </Button>
+                {isLoading && <CircularProgress/>}
                 </Box>
                 <ToastContainer autoClose={1500}/>
             </Box>

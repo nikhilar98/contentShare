@@ -1,5 +1,5 @@
 import { useContext, useState } from "react"
-import { Box, Button, TextField, Typography } from "@mui/material"
+import { Box, Button, TextField, Typography, CircularProgress } from "@mui/material"
 import axios from 'axios'
 import { useNavigate } from "react-router-dom"
 
@@ -13,6 +13,7 @@ const ContentForm = () => {
     const [link,setLink] = useState("")
     const [formErrors,setFormErrors] = useState({})
     const [serverErrors,setServerErrors] = useState({})
+    const [isLoading,setIsLoading] = useState(false)
     
     const {appDispatch,appState}  = useContext(appContext)
     const {isLoggedin} = appState
@@ -40,6 +41,7 @@ const ContentForm = () => {
         if(Object.keys(errors).length==0){
             setFormErrors({})
             setServerErrors({})
+            setIsLoading(true)
             const formData= { 
                 title,
                 description,
@@ -51,10 +53,12 @@ const ContentForm = () => {
                         Authorization: localStorage.getItem('token')
                     }
                 })
+                setIsLoading(false)
                 appDispatch({type:"ADD_USER_CONTENT",payload:response.data})
                 navigate('/myContents')
             }   
             catch(err){
+                setIsLoading(false)
                 const errorResponse = err.response.data.errors
                 const obj = {}
                 errorResponse.forEach(ele=>{
@@ -109,6 +113,8 @@ const ContentForm = () => {
                 style={{width:'8rem'}}>
                     Create
                 </Button>
+
+                {isLoading && <CircularProgress/>}
             </Box>
         </Box>)
 
