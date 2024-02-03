@@ -57,4 +57,8 @@ This application serves as a **Content creation system** allowing content creato
 
 The app should be fully up and running at this stage. 
 
+### Access the application
+
+The application is hosted on Vercel (for client-side application) and Render (for server-side application).
+
 **Live Link to access the app :** <a>https://content-share-ashy.vercel.app</a>
